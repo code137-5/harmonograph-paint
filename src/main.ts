@@ -91,7 +91,7 @@ function draw() {
   prePointX = x + width / 2;
   prePointY = y + height / 2;
 
-  if ([dampX1, dampX2, dampY1, dampY2].some((damp) => damp < 0.95)) {
+  if ([dampX1, dampX2, dampY1, dampY2].some((damp) => damp < 0.9)) {
     noLoop();
   }
 }
