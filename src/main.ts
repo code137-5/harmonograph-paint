@@ -2,32 +2,33 @@ import "p5";
 
 const SPEED_SUPPRESSOR = 0.01;
 const DAMPING_COEFFICIENT = -0.001;
-const START_HUE = randomGlobal(0, 360);
+let START_HUE = randomGlobal(0, 360);
 
-const AMPLITUDE_X1 = randomGlobal(100, window.innerWidth / 2 - 200);
-const FREQUENCY_X1 = Math.random() + 2;
-const PHASE_X1 = Math.random() * 2;
-const DAMPING_X1 = randomGlobal(1, 2) * DAMPING_COEFFICIENT;
+let AMPLITUDE_X1 = randomGlobal(100, window.innerWidth / 2 - 200);
+let FREQUENCY_X1 = Math.random() + 2;
+let PHASE_X1 = Math.random() * 2;
+let DAMPING_X1 = randomGlobal(1, 2) * DAMPING_COEFFICIENT;
 
-const AMPLITUDE_X2 = randomGlobal(100, window.innerWidth / 2 - 200);
-const FREQUENCY_X2 = randomGlobal(2, 3);
-const PHASE_X2 = Math.random() * 2;
-const DAMPING_X2 = randomGlobal(1, 2) * DAMPING_COEFFICIENT;
+let AMPLITUDE_X2 = randomGlobal(100, window.innerWidth / 2 - 200);
+let FREQUENCY_X2 = randomGlobal(2, 3);
+let PHASE_X2 = Math.random() * 2;
+let DAMPING_X2 = randomGlobal(1, 2) * DAMPING_COEFFICIENT;
 
-const AMPLITUDE_Y1 = randomGlobal(100, window.innerHeight / 2 - 150);
-const FREQUENCY_Y1 = Math.random() + 2;
-const PHASE_Y1 = Math.random() * 2;
-const DAMPING_Y1 = randomGlobal(1, 2) * DAMPING_COEFFICIENT;
+let AMPLITUDE_Y1 = randomGlobal(100, window.innerHeight / 2 - 150);
+let FREQUENCY_Y1 = Math.random() + 2;
+let PHASE_Y1 = Math.random() * 2;
+let DAMPING_Y1 = randomGlobal(1, 2) * DAMPING_COEFFICIENT;
 
-const AMPLITUDE_Y2 = randomGlobal(100, window.innerHeight / 2) - 150;
-const FREQUENCY_Y2 = randomGlobal(2, 3);
-const PHASE_Y2 = Math.random() * 2;
-const DAMPING_Y2 = randomGlobal(1, 2) * DAMPING_COEFFICIENT;
+let AMPLITUDE_Y2 = randomGlobal(100, window.innerHeight / 2) - 150;
+let FREQUENCY_Y2 = randomGlobal(2, 3);
+let PHASE_Y2 = Math.random() * 2;
+let DAMPING_Y2 = randomGlobal(1, 2) * DAMPING_COEFFICIENT;
 
 let prePointX = 0;
 let prePointY = 0;
 
 let canvas;
+let canvasReset = false;
 
 function setup() {
   frameRate(60);
@@ -44,7 +45,6 @@ function setup() {
   background(30);
   strokeWeight(3);
   colorMode(HSL);
-  textSize(20);
 }
 
 function draw() {
@@ -57,6 +57,7 @@ function draw() {
       80
     ).toFixed(0)}%, ${random(30, 70).toFixed(0)}%)`
   );
+  strokeColor.setAlpha(128);
   stroke(strokeColor);
 
   const dampX1 = pow(Math.E, DAMPING_X1 * time);
@@ -94,7 +95,7 @@ function draw() {
   prePointY = y + height / 2;
 
   if ([dampX1, dampX2, dampY1, dampY2].some((damp) => damp < 0.9)) {
-    noLoop();
+    reset();
   }
 }
 
@@ -106,6 +107,33 @@ function randomGlobal(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
 
+function reset() {
+  frameCount = 0;
+
+  START_HUE = randomGlobal(0, 360);
+
+  AMPLITUDE_X1 = randomGlobal(100, window.innerWidth / 2 - 200);
+  FREQUENCY_X1 = Math.random() + 2;
+  PHASE_X1 = Math.random() * 2;
+  DAMPING_X1 = randomGlobal(1, 2) * DAMPING_COEFFICIENT;
+
+  AMPLITUDE_X2 = randomGlobal(100, window.innerWidth / 2 - 200);
+  FREQUENCY_X2 = randomGlobal(2, 3);
+  PHASE_X2 = Math.random() * 2;
+  DAMPING_X2 = randomGlobal(1, 2) * DAMPING_COEFFICIENT;
+
+  AMPLITUDE_Y1 = randomGlobal(100, window.innerHeight / 2 - 150);
+  FREQUENCY_Y1 = Math.random() + 2;
+  PHASE_Y1 = Math.random() * 2;
+  DAMPING_Y1 = randomGlobal(1, 2) * DAMPING_COEFFICIENT;
+
+  AMPLITUDE_Y2 = randomGlobal(100, window.innerHeight / 2) - 150;
+  FREQUENCY_Y2 = randomGlobal(2, 3);
+  PHASE_Y2 = Math.random() * 2;
+  DAMPING_Y2 = randomGlobal(1, 2) * DAMPING_COEFFICIENT;
+}
+
 window.onresize = function () {
   canvas.size(window.innerWidth, window.innerHeight);
+  canvasReset = true;
 };
