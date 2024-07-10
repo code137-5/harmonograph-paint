@@ -27,10 +27,12 @@ const DAMPING_Y2 = randomGlobal(1, 2) * DAMPING_COEFFICIENT;
 let prePointX = 0;
 let prePointY = 0;
 
+let canvas;
+
 function setup() {
   frameRate(60);
 
-  createCanvas(windowWidth, windowHeight);
+  canvas = createCanvas(windowWidth, windowHeight);
 
   // background(
   //   color(
@@ -48,7 +50,7 @@ function setup() {
 function draw() {
   const time = frameCount * SPEED_SUPPRESSOR;
 
-  strokeWeight(random(1, 15));
+  strokeWeight(random(1, 10));
   const strokeColor = color(
     `hsb(${((START_HUE + random(0, 10)) % 360).toFixed(0)}, ${random(
       30,
@@ -103,3 +105,7 @@ window.draw = draw;
 function randomGlobal(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
+
+window.onresize = function () {
+  canvas.size(window.innerWidth, window.innerHeight);
+};
