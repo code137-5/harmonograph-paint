@@ -1,34 +1,37 @@
 import "p5";
+import * as brush from "p5.brush";
 
 const SPEED_SUPPRESSOR = 0.01;
 const DAMPING_COEFFICIENT = -0.001;
-let START_HUE = randomGlobal(0, 360);
+let START_HUE = randomGlobal(30, 60);
 
-let AMPLITUDE_X1 = randomGlobal(100, window.innerWidth / 2 - 200);
+let AMPLITUDE_X1 = randomGlobal(100, window.innerWidth / 3);
 let FREQUENCY_X1 = Math.random() + 2;
 let PHASE_X1 = Math.random() * 2;
-let DAMPING_X1 = randomGlobal(1, 2) * DAMPING_COEFFICIENT;
+let DAMPING_X1 = randomGlobal(1, 1.5) * DAMPING_COEFFICIENT;
 
-let AMPLITUDE_X2 = randomGlobal(100, window.innerWidth / 2 - 200);
+let AMPLITUDE_X2 = randomGlobal(100, window.innerWidth / 3);
 let FREQUENCY_X2 = randomGlobal(2, 3);
 let PHASE_X2 = Math.random() * 2;
-let DAMPING_X2 = randomGlobal(1, 2) * DAMPING_COEFFICIENT;
+let DAMPING_X2 = randomGlobal(1, 1.5) * DAMPING_COEFFICIENT;
 
-let AMPLITUDE_Y1 = randomGlobal(100, window.innerHeight / 2 - 150);
+let AMPLITUDE_Y1 = randomGlobal(100, window.innerHeight / 3);
 let FREQUENCY_Y1 = Math.random() + 2;
 let PHASE_Y1 = Math.random() * 2;
-let DAMPING_Y1 = randomGlobal(1, 2) * DAMPING_COEFFICIENT;
+let DAMPING_Y1 = randomGlobal(1, 1.5) * DAMPING_COEFFICIENT;
 
-let AMPLITUDE_Y2 = randomGlobal(100, window.innerHeight / 2) - 150;
+let AMPLITUDE_Y2 = randomGlobal(100, window.innerHeight / 3);
 let FREQUENCY_Y2 = randomGlobal(2, 3);
 let PHASE_Y2 = Math.random() * 2;
-let DAMPING_Y2 = randomGlobal(1, 2) * DAMPING_COEFFICIENT;
+let DAMPING_Y2 = randomGlobal(1, 1.5) * DAMPING_COEFFICIENT;
 
 let prePointX = 0;
 let prePointY = 0;
 
 let canvas;
 let canvasReset = false;
+
+let sequence = 0;
 
 function setup() {
   frameRate(60);
@@ -50,12 +53,13 @@ function setup() {
 function draw() {
   const time = frameCount * SPEED_SUPPRESSOR;
 
-  strokeWeight(random(1, 10));
+  const defaultStrokeWeight = random(3, 10);
+  strokeWeight(defaultStrokeWeight);
   const strokeColor = color(
     `hsb(${((START_HUE + random(0, 10)) % 360).toFixed(0)}, ${random(
-      30,
-      80
-    ).toFixed(0)}%, ${random(30, 70).toFixed(0)}%)`
+      40,
+      100
+    ).toFixed(0)}%, ${random(40, 90).toFixed(0)}%)`
   );
   strokeColor.setAlpha(128);
   stroke(strokeColor);
@@ -80,13 +84,13 @@ function draw() {
 
   point(x + width / 2, y + height / 2);
 
-  strokeWeight(random(1, 5));
+  strokeWeight((defaultStrokeWeight / 3) * 2);
   stroke(
     color(
       `hsb(${((START_HUE + random(0, 10)) % 360).toFixed(0)}, ${random(
-        30,
-        80
-      ).toFixed(0)}%, ${random(30, 70).toFixed(0)}%)`
+        40,
+        100
+      ).toFixed(0)}%, ${random(40, 90).toFixed(0)}%)`
     )
   );
   line(x + width / 2, y + height / 2, prePointX, prePointY);
